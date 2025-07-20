@@ -71,3 +71,4 @@ def tokens_to_vec(token_text, model,vector_size=100):
 
     return mean_embedding
     
+

@@ -19,19 +19,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# @app.get("/recommended")
-# def recommendations(title:str,product_count: int=5):
-#     logging.info("Data received")
-#     recommended_products = get_similar_titles(title,limit=product_count)
-#     logging.info("Similar products found")
-#     return {"Products":recommended_products}
-
-# @app.post('/receive-data')
-# def receive_data(data: dict):
-#     print(data)
-#     return {"received": data}
-
-
 
 @app.post('/recommend')
 def recommendations(data: dict=Body(...)):

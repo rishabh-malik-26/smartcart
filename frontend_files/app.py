@@ -55,6 +55,7 @@ def login():
 @app.route('/register', methods=['POST'])
 
 def register():
+
     """
     Registers a user
 
@@ -93,7 +94,8 @@ def register():
 
 @app.route('/product/<int:product_id>',methods=['GET'])
 def product_page(product_id):
-    
+
+        start = time.perf_counter()
     
         session_user_id = session.get('user_id')
         logging.info(f"{session_user_id} received")
@@ -148,8 +150,15 @@ def product_page(product_id):
                                   ,'image':recommended_product_iamge}
             print(f"Similar Title {recommended_product_title}")
             similar_products.append(similar_titles_dic)
+        
+        end = time.perf_counter()
+
+        latency = (end - start)* 1000
+
+        logging.info(f'Latency of Product Endpoint: {latency:.4f}')
 
         return render_template('product_page.html',product_details = product_details,similar_titles=similar_products)
+
 
 import datetime
 @app.route('/health')
@@ -225,51 +234,6 @@ def category():
 
 
 
-
-# @app.route("/search", methods=['GET', 'POST'])
-# def search():    
-
-#     if request.method == 'POST':
-#         data = request.get_json()
-#         # search_query = request.args.get('query', '')
-#         search_query = data.get('search_query', '')
-#         similar_ids = custom_search(search_query)
-#         logging.info("similar products found")
-
-#         searched_products = []
-
-#         for product_id in similar_ids:
-#                     product_db= ProductsDB(db)
-#         details = product_db.get_product_details(product_id)
-        
-#         if not details:
-#             logging.error(f"Product not found: {product_id}")
-#             return "Product not found", 404
-        
-#         id = details[0][0]
-#         title =  details[0][2]
-#         category = details[0][11]
-
-
-#         logging.info(f"Details retrieved: {details}")
-#         product_details = {"id": id,
-#                         "name": title,
-#                         "price": 129.99,
-#                         "category": category,
-#                             "image": "path/to/default/image.jpg",  # Add this
-#                             "description": "No description available"  # Add this
-#         }
-
-#         searched_products.append(product_details)
-
-#     return render_template('search.html',relevant_products = searched_products)
-
-
-
-
-
-
-
 @app.route("/search", methods=['GET'])
 def search():    
     start = time.perf_counter()
@@ -328,12 +292,59 @@ def search():
             return render_template('search.html', relevant_products=[], error="Search failed. Please try again.")
     end = time.perf_counter()
 
-    latency = end - start
+    latency = (end - start)* 1000
     logging.info(f'Latency of Search: {latency:.4f}')
         
 
     # Handle GET requests or return results
     return render_template('search.html', results=searched_products)
+
+
+
+
+
+
+# @app.route("/search", methods=['GET', 'POST'])
+# def search():    
+
+#     if request.method == 'POST':
+#         data = request.get_json()
+#         # search_query = request.args.get('query', '')
+#         search_query = data.get('search_query', '')
+#         similar_ids = custom_search(search_query)
+#         logging.info("similar products found")
+
+#         searched_products = []
+
+#         for product_id in similar_ids:
+#                     product_db= ProductsDB(db)
+#         details = product_db.get_product_details(product_id)
+        
+#         if not details:
+#             logging.error(f"Product not found: {product_id}")
+#             return "Product not found", 404
+        
+#         id = details[0][0]
+#         title =  details[0][2]
+#         category = details[0][11]
+
+
+#         logging.info(f"Details retrieved: {details}")
+#         product_details = {"id": id,
+#                         "name": title,
+#                         "price": 129.99,
+#                         "category": category,
+#                             "image": "path/to/default/image.jpg",  # Add this
+#                             "description": "No description available"  # Add this
+#         }
+
+#         searched_products.append(product_details)
+
+#     return render_template('search.html',relevant_products = searched_products)
+
+
+
+
 
 
 

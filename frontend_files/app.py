@@ -55,7 +55,14 @@ def login():
 @app.route('/register', methods=['POST'])
 
 def register():
+    """
+    Registers a user
 
+    Args:
+        User name: str
+        password: str
+    
+    """
     user_name = request.form.get('name')
     password = request.form.get('password')
 
@@ -86,6 +93,7 @@ def register():
 
 @app.route('/product/<int:product_id>',methods=['GET'])
 def product_page(product_id):
+    
     
         session_user_id = session.get('user_id')
         logging.info(f"{session_user_id} received")
@@ -264,7 +272,8 @@ def category():
 
 @app.route("/search", methods=['GET'])
 def search():    
-    searched_products = []  # Initialize outside the if block
+    start = time.perf_counter()
+    searched_products = []  
     
     if request.method == 'GET':
         # data = request.get_json()
@@ -317,7 +326,12 @@ def search():
         except Exception as e:
             logging.error(f"Error during search: {e}")
             return render_template('search.html', relevant_products=[], error="Search failed. Please try again.")
-    
+    end = time.perf_counter()
+
+    latency = end - start
+    logging.info(f'Latency of Search: {latency:.4f}')
+        
+
     # Handle GET requests or return results
     return render_template('search.html', results=searched_products)
 

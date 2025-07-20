@@ -1,0 +1,58 @@
+
+Postgresql
+
+Data base Tables
+1. user_data --> columns: user_name,user_password,user_id
+2. user_interaction --> columns: user_id,product_id,product_name,event_type
+3. 
+
+
+Database Classes
+1. DBManager
+2. User_info_DB
+3. User_Interaction_DB
+4. ProductsDB
+
+HTML Pages
+
+1. Product Page
+2. Home
+3. Login
+
+
+Fast Api End points
+
+
+
+Flask APi Endpoints
+/
+/register
+/login
+/logout
+/health
+/search
+/track-interaction
+
+Qdrant Collections
+
+1. user_latent
+2. product_date
+3. product_vectors
+4. item_latent
+
+Data Pipelines
+
+1. Content Based Pipelines 
+
+Database (Product Meta)  ---> Embeddings(Word2Vec) ---> Qdrant ---> Similar Products of each Product ---> Store in Redis 
+
+
+2. Collaborative Based Pipelines
+
+
+Kafka 
+
+1. Producers
+2. Consumers
+3. Topics
+

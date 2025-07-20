@@ -1,0 +1,4 @@
+env/
+.env
+product_data/
+logic/products.csv
